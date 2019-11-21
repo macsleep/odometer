@@ -4,7 +4,7 @@
 
 ![schematic](images/schematic.png)
 
-The Attiny85 is a "V" version which means it can run on lower voltages (2 Volts in this setup). It has 8 kb of FLASH, 512 bytes of RAM and a 512 byte EEPROM. The Calibrated Internal Oscillator is running at 8 MHz with a prescaler of 8. This leads to clock frequency of 1 MHz. 
+The Attiny85 is a "V" version which means it can run on lower voltages (2.1 Volts in this setup). It has 8 kb of FLASH, 512 bytes of RAM and a 512 byte EEPROM. The Calibrated Internal Oscillator is running at 8 MHz with a prescaler of 8. This leads to clock frequency of 1 MHz. 
 
 Brown-out detection is set to 1.8 volts using the fuses of the Attiny85. It is very important to enable brown-out detection or otherwise the EEPROM content will get corrupt. Brown-out detection makes sure any ongoing EEPROM write will get done in case the power starts failing. 
 
