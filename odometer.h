@@ -47,9 +47,10 @@ enum {
 
 /* global variables */
 
+volatile uint8_t eeprom_ok = true;
 volatile uint16_t eeprom_index = 0;
-volatile uint8_t led_strobe = 0;
-volatile uint8_t wheel_turned = 0;
+volatile uint8_t led_strobe = false;
+volatile uint8_t wheel_turned = false;
 volatile uint8_t usi_rx_data = 0;
 volatile uint8_t usi_rx_avail = 0;
 

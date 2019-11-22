@@ -277,20 +277,25 @@ ISR(PCINT0_vect) {
  */
 
 void odometer_init(void) {
-    uint8_t a, b;
+    uint8_t a, b, step = 1;
     uint16_t i;
 
-    // find start in chain
     a = eeprom_read(0);
     for (i = 1; i < (EEPROM_SIZE - 2); i++) {
         b = eeprom_read(i);
 
-        if (a == (b + 1)) {
+        // find start
+        if (step && (a == ((b + 1) & 0xff))) {
             eeprom_index = i;
-            break;
+            step = 0;
+            a = b;
         }
 
-        a = b;
+        // eeprom inconsistent
+        if (b != a) {
+            eeprom_ok = false;
+            break;
+        }
     }
 }
 
@@ -366,7 +371,7 @@ void odometer_setValue(uint32_t value) {
     // first byte chain remainder
     value = value % (uint32_t) (EEPROM_SIZE - 2);
     for (i = 0; i < value; i++) {
-        eeprom_write(i, eeprom_read(i) + 1);
+        eeprom_write(i, divisor + 1);
     }
 
     // set index
@@ -394,7 +399,7 @@ int main(void) {
     // enable global interrupts
     sei();
 
-    while (1) {
+    while (eeprom_ok) {
         // update odometer
         if (wheel_turned) {
             wheel_turned = false;
