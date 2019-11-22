@@ -58,39 +58,30 @@ void eeprom_write(uint16_t addr, uint8_t data) {
     // wait for completion of write
     while (EECR & (1 << EEPE));
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        // set up address
-        EEAR = addr;
+    // set up address
+    EEAR = addr;
 
-        // set up data
-        EEDR = data;
+    // set up data
+    EEDR = data;
 
-        // write logical one to EEMPE
-        EECR |= (1 << EEMPE);
+    // write logical one to EEMPE
+    EECR |= (1 << EEMPE);
 
-        // start EEPROM write
-        EECR |= (1 << EEPE);
-    }
+    // start EEPROM write
+    EECR |= (1 << EEPE);
 }
 
 uint8_t eeprom_read(uint16_t addr) {
-    uint8_t data;
-
     // wait for completion of write
     while (EECR & (1 << EEPE));
 
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
-        // set up address register
-        EEAR = addr;
+    // set up address register
+    EEAR = addr;
 
-        // start EEPROM read
-        EECR |= (1 << EERE);
+    // start EEPROM read
+    EECR |= (1 << EERE);
 
-        // save data register
-        data = EEDR;
-    }
-
-    return data;
+    return EEDR;
 }
 
 /*
