@@ -102,7 +102,7 @@ void timer0_init(void) {
     OCR0A = PULSES_PER_WHEEL_TURN - 1;
 
     // clear interrupt flag
-    TIFR |= (1 << OCF0A);
+    TIFR = (1 << OCF0A);
 
     // enable interrupt
     TIMSK |= (1 << OCIE0A);
