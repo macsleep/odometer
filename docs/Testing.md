@@ -6,7 +6,7 @@ First tests show that the odometer stops working when the generator voltage come
 
 <img src="images/hub-generator-slow.jpeg" width="200">
 
-Here is what the voltage looks like once it's failing after the LDO voltage regulator:
+Here is what the voltage looks like once it's failing on the output side of the LDO voltage regulator:
 
 <img src="images/power_starts_failing.jpeg" width="200">
 
@@ -20,7 +20,7 @@ The two pictures below show the signal processing used to count the half waves. 
 
 ## Transistor
 
-I replaced the BSS123 transistor with a 2N7002 as a precaution. The 2N7002 from NXP has a higher gate-source voltage limit (+-30 Volts compared to +-20 Volts). Otherwise the specs are pretty much the same.
+I replaced the BSS123 transistor with a 2N7002 as a precaution. The 2N7002 from NXP has a higher gate-source voltage limit (±30 Volts compared to ±20 Volts). Otherwise the specs are pretty much the same.
 
 ## Power Usage
 
