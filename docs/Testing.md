@@ -18,4 +18,8 @@ The two pictures below show the signal processing used to count the half waves. 
 
 <img src="images/signal_after_transistor.jpeg" width="200">
 
+## Transistor
+
+I replaced the BSS123 transistor with a 2N7002 as a precaution. The 2N7002 from NXP has a higher gate-source voltage limit (+-30 volts compared to +-20 volts). Otherwise the specs are pretty much the same.
+
 Date: 2019-11-17
