@@ -6,9 +6,9 @@
 
 The Attiny85 is a "V" version which means it can run on lower voltages (2.1 Volts in this setup). It has 8 kb of FLASH, 512 bytes of RAM and a 512 byte EEPROM. The Calibrated Internal Oscillator is running at 8 MHz with a prescaler of 8. This leads to a clock frequency of 1 MHz. 
 
-Brown-out detection is set to 1.8 volts using the fuses of the Attiny85. It is very important to enable brown-out detection or otherwise the EEPROM content will get corrupt. Brown-out detection makes sure any ongoing EEPROM write will get done in case the power starts failing. 
+Brown-out detection is set to 1.8 Volts using the fuses of the Attiny85. It is very important to enable brown-out detection or otherwise the EEPROM content will get corrupt. Brown-out detection makes sure any ongoing EEPROM write will get done in case the power starts failing. 
 
-The MIC5233 LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 2 volts. In shutdown mode the voltage regulator uses (almost) no power.
+The MIC5233 LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 2 Volts. In shutdown mode the voltage regulator uses (almost) no power.
 
 The AC voltage of the hub generator is also rectified by a single diode. This signal is then cleaned up by a transistor and feed into counter/timer 0 of the tiny.
 
