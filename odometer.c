@@ -340,8 +340,8 @@ uint32_t odometer_getValue(void) {
 }
 
 void odometer_setValue(uint32_t value) {
+    uint16_t i, modulo;
     uint8_t divisor;
-    uint16_t i;
 
     // third byte
     divisor = value / ((uint32_t) (EEPROM_SIZE - 2) * 256 * 256);
@@ -355,18 +355,13 @@ void odometer_setValue(uint32_t value) {
     // first byte chain
     value = value % ((uint32_t) (EEPROM_SIZE - 2) * 256);
     divisor = value / (uint32_t) (EEPROM_SIZE - 2);
+    modulo = value % (uint32_t) (EEPROM_SIZE - 2);
     for (i = 0; i < (EEPROM_SIZE - 2); i++) {
-        eeprom_write(i, divisor);
-    }
-
-    // first byte chain remainder
-    value = value % (uint32_t) (EEPROM_SIZE - 2);
-    for (i = 0; i < value; i++) {
-        eeprom_write(i, divisor + 1);
+        (i < modulo) ? eeprom_write(i, divisor + 1) : eeprom_write(i, divisor);
     }
 
     // set index
-    eeprom_index = value;
+    eeprom_index = modulo;
 }
 
 /*
