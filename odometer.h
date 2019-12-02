@@ -61,6 +61,7 @@ void led(uint8_t mode);
 void eeprom_init(void);
 void eeprom_write(uint16_t addr, uint8_t data);
 uint8_t eeprom_read(uint16_t addr);
+uint8_t eeprom_busy(void);
 void timer0_init(void);
 void ac_disable(void);
 void adc_disable(void);

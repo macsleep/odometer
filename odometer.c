@@ -86,6 +86,10 @@ uint8_t eeprom_read(uint16_t addr) {
     return EEDR;
 }
 
+uint8_t eeprom_busy(void) {
+    return (EECR & (1 << EEPE));
+}
+
 /*
   timer0 functions
  */
@@ -321,15 +325,12 @@ uint32_t odometer_getValue(void) {
     uint32_t value = 0;
 
     // carry flag
-    carry = (eeprom_read(EEPROM_SIZE - 3) == 0xff) ? 1 : 0;
+    carry = (eeprom_read(EEPROM_SIZE - 3) == 0xff) ? true : false;
 
     // first byte chain
     for (i = 0; i < (EEPROM_SIZE - 2); i++) {
         data = eeprom_read(i);
-        value = value + data;
-
-        // apply carry if needed
-        if (data == 0 && carry) value = value + 256;
+        value = (data == 0 && carry) ? value + 256 : value + data;
     }
 
     // second byte
@@ -413,8 +414,8 @@ int main(void) {
                 break;
         }
 
-        // wait for pending eeprom write
-        while (EECR & (1 << EEPE));
+        // wait for eeprom
+        while (eeprom_busy());
 
         // save power
         set_sleep_mode(SLEEP_MODE_IDLE);
