@@ -64,11 +64,13 @@ void eeprom_write(uint16_t addr, uint8_t data) {
     // set up data
     EEDR = data;
 
-    // write logical one to EEMPE
-    EECR |= (1 << EEMPE);
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE) {
+        // write logical one to EEMPE
+        EECR |= (1 << EEMPE);
 
-    // start EEPROM write
-    EECR |= (1 << EEPE);
+        // start EEPROM write
+        EECR |= (1 << EEPE);
+    }
 }
 
 uint8_t eeprom_read(uint16_t addr) {
@@ -340,28 +342,32 @@ uint32_t odometer_getValue(void) {
 }
 
 void odometer_setValue(uint32_t value) {
-    uint16_t i, modulo;
-    uint8_t divisor;
+    uint8_t quotient;
+    uint16_t i;
+    uint32_t divisor;
 
     // third byte
-    divisor = value / ((uint32_t) (EEPROM_SIZE - 2) * 256 * 256);
-    eeprom_write((EEPROM_SIZE - 1), divisor);
+    divisor = (uint32_t) (EEPROM_SIZE - 2) * 256 * 256;
+    quotient = (value / divisor) & 0xff;
+    value = value % divisor;
+    eeprom_write((EEPROM_SIZE - 1), quotient);
 
     // second byte
-    value = value % ((uint32_t) (EEPROM_SIZE - 2) * 256 * 256);
-    divisor = value / ((uint32_t) (EEPROM_SIZE - 2) * 256);
-    eeprom_write((EEPROM_SIZE - 2), divisor);
+    divisor = (uint32_t) (EEPROM_SIZE - 2) * 256;
+    quotient = (value / divisor) & 0xff;
+    value = value % divisor;
+    eeprom_write((EEPROM_SIZE - 2), quotient);
 
     // first byte chain
-    value = value % ((uint32_t) (EEPROM_SIZE - 2) * 256);
-    divisor = value / (uint32_t) (EEPROM_SIZE - 2);
-    modulo = value % (uint32_t) (EEPROM_SIZE - 2);
+    divisor = (uint32_t) (EEPROM_SIZE - 2);
+    quotient = (value / divisor) & 0xff;
+    value = value % divisor;
     for (i = 0; i < (EEPROM_SIZE - 2); i++) {
-        (i < modulo) ? eeprom_write(i, divisor + 1) : eeprom_write(i, divisor);
+        (i < value) ? eeprom_write(i, quotient + 1) : eeprom_write(i, quotient);
     }
 
     // set index
-    eeprom_index = modulo;
+    eeprom_index = value & 0xffff;
 }
 
 /*
