@@ -413,6 +413,9 @@ int main(void) {
                 break;
         }
 
+        // wait for pending eeprom write
+        while (EECR & (1 << EEPE));
+
         // save power
         set_sleep_mode(SLEEP_MODE_IDLE);
         sleep_enable();
