@@ -50,8 +50,8 @@ void led(uint8_t mode) {
  */
 
 void eeprom_init(void) {
-    // disable interrupts, enable atomic writes
-    EECR = (0 << EERIE) | (0 << EEPM1) | (0 << EEPM0);
+    // enable atomic writes, disable interrupts
+    EECR = (0 << EEPM1) | (0 << EEPM0) | (0 << EERIE);
 }
 
 void eeprom_write(uint16_t addr, uint8_t data) {
@@ -87,6 +87,7 @@ uint8_t eeprom_read(uint16_t addr) {
 }
 
 uint8_t eeprom_busy(void) {
+    // eeprom program enable
     return (EECR & (1 << EEPE));
 }
 
@@ -108,7 +109,7 @@ void timer0_init(void) {
     OCR0A = PULSES_PER_WHEEL_TURN - 1;
 
     // clear interrupt flag
-    TIFR = (1 << OCF0A);
+    TIFR |= (1 << OCF0A);
 
     // enable interrupt
     TIMSK |= (1 << OCIE0A);
@@ -124,7 +125,7 @@ ISR(TIMER0_COMPA_vect) {
  */
 
 void ac_disable(void) {
-    // clear interrupt
+    // disable interrupt
     ACSR &= ~(1 << ACIE);
 
     // turn off analog comparator
