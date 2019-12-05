@@ -23,6 +23,25 @@ Below you can see the prototype PCB. It is about 20x10 mm in size:
 <img src="images/pcb_top.jpeg" width="200">
 <img src="images/pcb_bottom.jpeg" width="200">
 
+## Parts List
+
+|Part    |Value           | Package        |
+|:------:|:--------------:|:--------------:|
+|B2      | MB6S           | SOIC-4         |
+|C1      | 22u 35v        | SMC_D          |
+|C2      | 10u 10v        | SMC_B          |
+|D1      | LL4148         | SOD80C         |
+|IC1     | TINY85V-10SU   | SOIC-8         |
+|IC2     | MIC5233YM5     | SOT25          |
+|LED1    | RED            | 0805           |
+|Q1      | 2N7002         | SOT23          |
+|R1      | 1k             | 0805           |
+|R2      | 150K           | 0805           |
+|R3      | 220k           | 0805           |
+|R4      | 100k           | 0805           |
+|R5      | 100k           | 0805           |
+|X1      | SM06B-SSR-H-TB | SM06B-SSR-H-TB |
+
 ## ISP Pinout
 
 JST SH 6 pin connector 1mm pitch
