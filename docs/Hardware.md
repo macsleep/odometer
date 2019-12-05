@@ -36,7 +36,7 @@ Below you can see the prototype PCB. It is about 20x10 mm in size:
 |LED1    | RED            | 0805           |
 |Q1      | 2N7002         | SOT23          |
 |R1      | 1k             | 0805           |
-|R2      | 150K           | 0805           |
+|R2      | 150k           | 0805           |
 |R3      | 220k           | 0805           |
 |R4      | 100k           | 0805           |
 |R5      | 100k           | 0805           |
