@@ -275,101 +275,126 @@ ISR(PCINT0_vect) {
  */
 
 void odometer_init(void) {
-    uint8_t a, b, step = 1;
-    uint16_t i;
+	uint8_t a, b, once_high = true, once_low = true;
+	int16_t i, i_high = 0, i_low = -1;
 
-    a = eeprom_read(0);
-    for (i = 1; i < (EEPROM_SIZE - 2); i++) {
-        b = eeprom_read(i);
+	a = eeprom_read(EEPROM_SIZE - 1);
+	for (i = 0; i < EEPROM_SIZE; i++) {
+		b = eeprom_read(i);
 
-        // find start
-        if (step && (a == ((b + 1) & 0xff))) {
-            eeprom_index = i;
-            step = 0;
-            a = b;
-        }
+		// step high
+		if ((((a >> 4) + 1) & 0x0f) == (b >> 4)) {
+			a = (b & 0xf0) | (a & 0x0f);
+		}
+		if (once_high && ((a >> 4) == (((b >> 4) + 1) & 0x0f))) {
+			i_high = i;
+			once_high = false;
+			a = (b & 0xf0) | (a & 0x0f);
+		}
 
-        // eeprom inconsistent
-        if (b != a) {
-            eeprom_ok = false;
-            break;
-        }
-    }
+		// step low
+		if ((((a & 0x0f) + 1) & 0x0f) == (b & 0x0f)) {
+			a = (a & 0xf0) | (b & 0x0f);
+		}
+		if (once_low && ((a & 0x0f) == (((b & 0x0f) + 1) & 0x0f))) {
+			i_low = i;
+			once_low = false;
+			a = (a & 0xf0) | (b & 0x0f);
+		}
+
+		// consistency check
+		if (a != b) eeprom_ok = false;
+
+		a = b;
+	}
+
+	// index low
+	eeprom_index_low = i_high + 1;
+	if (i_low != -1) eeprom_index_low = i_low;
+	if (eeprom_index_low >= EEPROM_SIZE) eeprom_index_low = 0;
+
+	// index high
+	eeprom_index_high = i_high;
 }
 
 void odometer_increment(void) {
-    uint8_t value;
+	uint8_t a, b;
 
-    // first byte
-    value = eeprom_read(eeprom_index) + 1;
-    eeprom_write(eeprom_index, value);
+	// calc data
+	a = eeprom_read(eeprom_index_low);
+	b = (a & 0xf0) | ((a + 1) & 0x0f);
+	if ((eeprom_index_low == eeprom_index_high) && ((a & 0x0f) == 0x0f)) b = b + 0x10;
 
-    // second byte
-    if (value == 0 && eeprom_index == (EEPROM_SIZE - 3)) {
-        value = eeprom_read(EEPROM_SIZE - 2) + 1;
-        eeprom_write((EEPROM_SIZE - 2), value);
+	// atomic write
+	eeprom_write(eeprom_index_low, b);
 
-        // third byte
-        if (value == 0) {
-            value = eeprom_read(EEPROM_SIZE - 1) + 1;
-            eeprom_write((EEPROM_SIZE - 1), value);
-        }
-    }
+	// index high increment
+	if ((eeprom_index_low == eeprom_index_high) && ((a & 0x0f) == 0x0f)) {
+		eeprom_index_high++;
+		if (eeprom_index_high >= EEPROM_SIZE) eeprom_index_high = 0;
+		eeprom_index_low = eeprom_index_high;
+	}
 
-    // increment pointer
-    eeprom_index = (eeprom_index >= (EEPROM_SIZE - 3)) ? 0 : eeprom_index + 1;
+	// index low increment
+	eeprom_index_low++;
+	if (eeprom_index_low >= EEPROM_SIZE) eeprom_index_low = 0;
 }
 
 uint32_t odometer_getValue(void) {
-    uint8_t data, carry;
-    uint16_t i;
-    uint32_t value = 0;
+	uint8_t data, carry_high, carry_low;
+	uint16_t i, n_high = 0, n_low = 0;
 
-    // carry flag
-    carry = (eeprom_read(EEPROM_SIZE - 3) == 0xff) ? true : false;
+	// carry high
+	data = eeprom_read(EEPROM_SIZE - 1);
+	carry_high = ((data & 0xf0) == 0xf0) ? 1 : 0;
 
-    // first byte chain
-    for (i = 0; i < (EEPROM_SIZE - 2); i++) {
-        data = eeprom_read(i);
-        value = (data == 0 && carry) ? value + 256 : value + data;
-    }
+	// carry low
+	data = eeprom_read(eeprom_index_high);
+	carry_low = ((data & 0x0f) == 0x0f) ? 1 : 0;
 
-    // second byte
-    value = value + ((uint32_t) eeprom_read(EEPROM_SIZE - 2) * (EEPROM_SIZE - 2) * 256);
+	for (i = 0; i < EEPROM_SIZE; i++) {
+		data = eeprom_read(i);
 
-    // third byte
-    value = value + ((uint32_t) eeprom_read(EEPROM_SIZE - 1) * 256 * (EEPROM_SIZE - 2) * 256);
+		// sum nibbles
+		n_high = n_high + (data >> 4);
+		n_low = n_low + (data & 0x0f);
 
-    return value;
+		// add carry
+		if (carry_high && ((data & 0xf0) == 0)) n_high = n_high + 16;
+		if (carry_low && ((data & 0x0f) == 0)) n_low = n_low + 16;
+	}
+
+	return (((uint32_t) EEPROM_SIZE * 16 * n_high) + n_low);
 }
 
 void odometer_setValue(uint32_t value) {
-    uint8_t quotient;
-    uint16_t i;
-    uint32_t divisor;
+	uint8_t a, b, data;
+	uint16_t i, v_high, v_low, quotient, modulo, addr;
 
-    // third byte
-    divisor = (uint32_t) (EEPROM_SIZE - 2) * 256 * 256;
-    quotient = (value / divisor) & 0xff;
-    value = value % divisor;
-    eeprom_write((EEPROM_SIZE - 1), quotient);
+	// high chain
+	v_high = value / (uint16_t) (EEPROM_SIZE * 16);
+	quotient = v_high / (uint16_t) EEPROM_SIZE;
+	eeprom_index_high = v_high % (uint16_t) EEPROM_SIZE;
 
-    // second byte
-    divisor = (uint32_t) (EEPROM_SIZE - 2) * 256;
-    quotient = (value / divisor) & 0xff;
-    value = value % divisor;
-    eeprom_write((EEPROM_SIZE - 2), quotient);
+	a = ((quotient + 1) << 4) & 0xf0;
+	b = (quotient << 4) & 0xf0;
+	for (i = 0; i < EEPROM_SIZE; i++) {
+		(i < eeprom_index_high) ? eeprom_write(i, a) : eeprom_write(i, b);
+	}
 
-    // first byte chain
-    divisor = (uint32_t) (EEPROM_SIZE - 2);
-    quotient = (value / divisor) & 0xff;
-    value = value % divisor;
-    for (i = 0; i < (EEPROM_SIZE - 2); i++) {
-        (i < value) ? eeprom_write(i, quotient + 1) : eeprom_write(i, quotient);
-    }
+	// low chain
+	v_low = value % (uint16_t) (EEPROM_SIZE * 16);
+	quotient = v_low / (uint16_t) EEPROM_SIZE;
+	modulo = v_low % (uint16_t) EEPROM_SIZE;
+	eeprom_index_low = (eeprom_index_high + modulo + 1) % EEPROM_SIZE;
 
-    // set index
-    eeprom_index = value & 0xffff;
+	a = (quotient + 1) & 0x0f;
+	b = quotient & 0x0f;
+	for (i = 0; i < EEPROM_SIZE; i++) {
+		addr = (i + eeprom_index_high + 1) % EEPROM_SIZE;
+		data = eeprom_read(addr);
+		(i < modulo) ? eeprom_write(addr, (data | a)) : eeprom_write(addr, (data | b));
+	}
 }
 
 /*

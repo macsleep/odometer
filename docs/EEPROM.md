@@ -6,15 +6,18 @@ Simply writing the number of wheel turns into the EEPROM will not suffice. The E
 
 ## Wear Leveling
 
-The **L**east **S**ignificant **B**yte for storing the wheel turns is obviously the one most affected by the EEPROM write limitations. The LSB gets written with every new wheel turn. Instead of writing only one EEPROM byte the odometer uses the first 510 EEPROM bytes to store the LSB. The second and third byte get stored in the last two bytes of the EEPROM. This comes to a theoretical maximum of:
+The algorithm for storing the number of wheel turns in the EEPROM should have certain properties:
 
-(256 * 510) * (256) * (256) = 8,556,380,160 wheel turns
+* Evenly distribute writes among the EEPROM bytes.
+* Only write one EEPROM byte per increment to make increments atomic.
+* Make the counter large enough to store at least 100.000 km of wheel turns.
+* Stay close to the guaranteed 100.000 EEPROM writes the data sheet specifies.
 
-or 17,754,488 km for a 26" wheel. Due to the EEPROM write limitations this value is reduced to about:
+To achive these points the EEPROM is divided up into two words. The first word is made up of all the 512 low nibbles and the second word is made up of all the high nibbles. The value of these words is calculated by summing up the nibbles (a value between 0-16) of each word. Both words are then used as **L**east **S**ignificant **W**ord and **M**ost **S**ignificant **W**ord to form the total counter value. This leads to a maximum value for the wheel turn counter of:
 
-100,000 * 510 = 51,000,000 wheel turns
+(16 * 512) * (16 * 512) = 67.108.864 (or about 139.250 km for a 26" wheel)
 
-or about 105,825 km for a 26" wheel. This is close to 100,000 km for most bicycles out there and should be adequate. Also having a limit of 100,000 EEPROM writes in the Attiny85 does not mean it will automatically fail after 100,001 writes. It only means that Atmel will certify that the EEPROM will work for at least 100,000 write cycles and that after that you are on your own.
+Each EEPROM byte can be written at least 100.000 times which leeds to a total of (100.000 * 512) = 51.200.00 guaranteed EEPROM writes. Both these values make it reasonable to asume that the EEPROM will not fail until the odometer wheel counter rolls over back to zero after well over 100.000 km of usage.
 
 ![eeprom](images/eeprom.png)
 
@@ -31,22 +34,19 @@ avrdude: AVR device initialized and ready to accept instructions
 avrdude: Device signature = 0x1e930b (probably t85)
 avrdude: reading eeprom memory:
 avrdude: writing output file "<stdout>"
-12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,
-12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,
-12,12,12,12,12,12,12,12,12,12,12,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,
-11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,0,0
+22,22,22,22,22,22,22,22,22,22,22,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7
+,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
+,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6
 
 avrdude: safemode: Fuses OK (E:FF, H:D6, L:62)
 
