@@ -10,14 +10,14 @@ The algorithm for storing the number of wheel turns in the EEPROM should have ce
 
 * Evenly distribute writes among the EEPROM bytes.
 * Only write one EEPROM byte per increment to make increments atomic.
-* Make the counter large enough to store at least 100.000 km of wheel turns.
-* Stay close to the guaranteed 100.000 EEPROM writes the data sheet specifies.
+* Make the counter large enough to store at least 100,000 km of wheel turns.
+* Stay close to the guaranteed 100,000 EEPROM writes the data sheet specifies.
 
 To achive these points the EEPROM is divided up into two words. The first word is made up of all the 512 low nibbles and the second word is made up of all the high nibbles. The value of these words is calculated by summing up the nibbles (a value between 0-16) of each word. Both words are then used as **L**east **S**ignificant **W**ord and **M**ost **S**ignificant **W**ord to form the total counter value. This leads to a maximum value for the wheel turn counter of:
 
-(16 * 512) * (16 * 512) = 67.108.864 (or about 139.250 km for a 26" wheel)
+(16 * 512) * (16 * 512) = 67,108,864 (or about 139,250 km for a 26" wheel)
 
-Each EEPROM byte can be written at least 100.000 times which leeds to a total of (100.000 * 512) = 51.200.00 guaranteed EEPROM writes. Both these values make it reasonable to asume that the EEPROM will not fail until the odometer wheel counter rolls over back to zero after well over 100.000 km of usage.
+Each EEPROM byte can be written at least 100,000 times which leeds to a total of (100,000 * 512) = 51,200,00 guaranteed EEPROM writes. Both these values make it reasonable to asume that the EEPROM will not fail until the odometer wheel counter rolls over back to zero after well over 100,000 km of usage.
 
 ![eeprom](images/eeprom.png)
 
