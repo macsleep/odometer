@@ -17,7 +17,7 @@ To achive these points the EEPROM is divided up into two words. The first word i
 
 (16 * 512) * (16 * 512) = 67,108,864 (or about 139,250 km for a 26" wheel)
 
-Each EEPROM byte can be written at least 100,000 times which leeds to a total of (100,000 * 512) = 51,200,00 guaranteed EEPROM writes. Both these values make it reasonable to asume that the EEPROM will not fail until the odometer wheel counter rolls over back to zero after well over 100,000 km of usage.
+Each EEPROM byte can be written at least 100,000 times which leeds to a total of (100,000 * 512) = 51,200,000 guaranteed EEPROM writes. Both these values make it reasonable to asume that the EEPROM will not fail until the odometer wheel counter rolls over back to zero after well over 100,000 km of usage.
 
 ![eeprom](images/eeprom.png)
 
