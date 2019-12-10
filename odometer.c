@@ -275,7 +275,7 @@ ISR(PCINT0_vect) {
  */
 
 void odometer_init(void) {
-    uint8_t a, b, once_high = true, once_low = true;
+    uint8_t a, b, step_high = true, step_low = true;
     int16_t i, i_high = 0, i_low = -1;
 
     a = eeprom_read(EEPROM_SIZE - 1);
@@ -286,9 +286,9 @@ void odometer_init(void) {
         if ((((a >> 4) + 1) & 0x0f) == (b >> 4)) {
             a = (b & 0xf0) | (a & 0x0f);
         }
-        if (once_high && ((a >> 4) == (((b >> 4) + 1) & 0x0f))) {
+        if (step_high && ((a >> 4) == (((b >> 4) + 1) & 0x0f))) {
             i_high = i;
-            once_high = false;
+            step_high = false;
             a = (b & 0xf0) | (a & 0x0f);
         }
 
@@ -296,9 +296,9 @@ void odometer_init(void) {
         if ((((a & 0x0f) + 1) & 0x0f) == (b & 0x0f)) {
             a = (a & 0xf0) | (b & 0x0f);
         }
-        if (once_low && ((a & 0x0f) == (((b & 0x0f) + 1) & 0x0f))) {
+        if (step_low && ((a & 0x0f) == (((b & 0x0f) + 1) & 0x0f))) {
             i_low = i;
-            once_low = false;
+            step_low = false;
             a = (a & 0xf0) | (b & 0x0f);
         }
 
