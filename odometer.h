@@ -43,6 +43,9 @@
 #define EEPROM_SIZE (E2END+1)
 #define ODOMETER_MAX_VALUE ((uint32_t)(EEPROM_SIZE*16)*(EEPROM_SIZE*16))
 #define ODOMETER_LINE_SIZE 16
+#ifndef VERSION
+#define VERSION "?.?"
+#endif
 
 enum {
     ON, OFF, TOGGLE

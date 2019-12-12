@@ -1,7 +1,8 @@
 
 MCU=attiny85
 F_CPU=1000000
-CFLAGS=-g -Wall -mmcu=$(MCU) -DF_CPU=$(F_CPU)UL -Os
+GIT_VERSION=$(shell git describe --abbrev=4 --always --tags)
+CFLAGS=-g -Wall -mmcu=$(MCU) -DF_CPU=$(F_CPU)UL -DVERSION=\"$(GIT_VERSION)\" -Os
 LDFLAGS=-Wl,-gc-sections -Wl,-relax
 CC=avr-gcc
 TARGET=odometer

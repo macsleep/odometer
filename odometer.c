@@ -445,6 +445,18 @@ void odometer_terminal(void) {
             if (odometer_line[0] == 'i' && odometer_line_index == 1) {
                 odometer_increment();
             }
+
+            // version command
+            if (odometer_line[0] == 'v' && odometer_line_index == 1) {
+                usi_putchar('\r');
+                usi_putchar('\n');
+
+                i = 0;
+                while (VERSION[i] != 0) {
+                    usi_putchar(VERSION[i]);
+                    i++;
+                }
+            }
         }
 
         // echo
