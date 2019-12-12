@@ -8,7 +8,7 @@ The odometer uses timer/counter 0 to count the pulses sent by the hub generator.
 
 ## Usage
 
-The simplest way to readout the odometer is to use a terminal program like `screen`. After connecting to the serial adapter push "p" and "return" and the odometer will display the the total number of wheel turns. To exit `screen` press "control a" and "k".
+The simplest way to readout the odometer is to use a terminal program like `screen`. After connecting to the serial adapter press "p" and "return" and the odometer will display the the total number of wheel turns. To exit `screen` press "control a" and "k".
 
 <pre>
 mini% screen /dev/tty.usbserial-A403JXK2 9600
@@ -16,7 +16,7 @@ p
 93821
 </pre>
 
-You can also set a value using the "s" command. While the EEPROM is being programmed the LED will be on to give feedback when the command is done.
+You can also set a value using the "s" command. While the EEPROM is being programmed the LED will be on to give feedback when the command is done (takes about two seconds).
 
 <pre>
 mini% screen /dev/tty.usbserial-A403JXK2 9600
