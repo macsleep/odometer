@@ -35,8 +35,11 @@ $dev->purge_rx();
 # get filehandle
 open FH, '+<', $dev->{'NAME'};
 
-# send carriage return
-print FH "\r";
+# send print
+print FH "p\r";
+
+# dump echo
+<FH>;
 
 # get reply
 my $rotations = <FH>;

@@ -176,7 +176,7 @@ uint8_t usi_reverse(uint8_t b) {
     return b;
 }
 
-void usi_write(uint8_t c) {
+int usi_putchar(char c) {
     uint8_t i;
 
     // disable pin change interrupt
@@ -192,56 +192,44 @@ void usi_write(uint8_t c) {
     DDRB |= (1 << PB1);
 
     // start bit delay
-    _delay_us(BAUD_DELAY - 17);
+    _delay_us(USI_BAUD_DELAY - 17);
 
     // load data
     USIDR = usi_reverse(c);
-    _delay_us(BAUD_DELAY);
+    _delay_us(USI_BAUD_DELAY);
 
     for (i = 0; i < 7; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(BAUD_DELAY);
+        _delay_us(USI_BAUD_DELAY);
     }
 
     // stop bit
     USIDR = (1 << 7);
-    _delay_us(BAUD_DELAY);
+    _delay_us(USI_BAUD_DELAY);
 
     // disable TX
     DDRB &= ~(1 << PB1);
 
     // enable pin change interrupt
     PCMSK |= (1 << PCINT0);
+
+    return 0;
 }
 
-int8_t usi_getchar(void) {
-    int8_t data = -1;
+int usi_getchar(void) {
+    int data = -1;
 
-    if (usi_rx_avail) {
-        usi_rx_avail = false;
-        data = usi_rx_data;
+    if (usi_rx_head != usi_rx_tail) {
+        // move tail
+        usi_rx_tail++;
+        if (usi_rx_tail >= USI_RX_BUFFER_SIZE) usi_rx_tail = 0;
+
+        // save data
+        data = usi_rx_data[usi_rx_tail];
     }
 
     return data;
-}
-
-void usi_print(uint32_t value) {
-    uint8_t i = 0;
-    char buffer[16];
-
-    // convert to ASCII
-    do {
-        buffer[i++] = ((value % 10) + 48) & 0x7f;
-    } while ((value = value / 10));
-
-    // write to serial
-    for (; i > 0; i--) {
-        usi_write(buffer[i - 1]);
-    }
-
-    usi_write('\r');
-    usi_write('\n');
 }
 
 ISR(PCINT0_vect) {
@@ -254,17 +242,24 @@ ISR(PCINT0_vect) {
     USISR = (1 << USIOIF) | 8;
 
     // wait start bit
-    _delay_us(BAUD_DELAY + 10);
+    _delay_us(USI_BAUD_DELAY + 10);
 
     for (i = 0; i < 8; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(BAUD_DELAY);
+        _delay_us(USI_BAUD_DELAY);
     }
 
+    // move head
+    usi_rx_head++;
+    if (usi_rx_head >= USI_RX_BUFFER_SIZE) usi_rx_head = 0;
+
     // save data
-    usi_rx_data = usi_reverse(USIBR);
-    usi_rx_avail = true;
+    usi_rx_data[usi_rx_head] = usi_reverse(USIBR);
+
+    // overflow
+    if (usi_rx_tail == usi_rx_head) usi_rx_tail++;
+    if (usi_rx_tail >= USI_RX_BUFFER_SIZE) usi_rx_tail = 0;
 
     // enable pin change interrupt
     PCMSK |= (1 << PCINT0);
@@ -397,6 +392,70 @@ void odometer_setValue(uint32_t value) {
     }
 }
 
+void odometer_terminal(void) {
+    char c;
+    uint8_t i;
+    uint32_t value, n;
+
+    while ((c = usi_getchar()) >= 0) {
+        odometer_line[odometer_line_index] = c;
+
+        if (c == '\r') {
+            // print command
+            if (odometer_line[0] == 'p' && odometer_line_index == 1) {
+                value = odometer_getValue();
+
+                usi_putchar('\r');
+                usi_putchar('\n');
+
+                // convert to ASCII
+                i = 0;
+                do {
+                    odometer_line[i++] = ((value % 10) + 48) & 0x7f;
+                } while ((value = value / 10));
+
+                // write to serial
+                for (; i > 0; i--) {
+                    usi_putchar(odometer_line[i - 1]);
+                }
+            }
+
+            // set command
+            if (odometer_line[0] == 's' && odometer_line_index > 1) {
+                n = 1;
+                value = 0;
+                for (i = (odometer_line_index - 1); i > 0; i--) {
+                    // check ASCII
+                    if (odometer_line[i] < 48 || odometer_line[i] > 58) break;
+
+                    value = value + ((odometer_line[i] - 48) * n);
+
+                    // calculate power
+                    n = n * 10;
+                }
+
+                if (value < ODOMETER_MAX_VALUE) {
+                    led(ON);
+                    odometer_setValue(value);
+                    led(OFF);
+                }
+            }
+
+            // increment command
+            if (odometer_line[0] == 'i' && odometer_line_index == 1) {
+                odometer_increment();
+            }
+        }
+
+        // echo
+        usi_putchar(c);
+        if (c == '\r') usi_putchar('\n');
+
+        odometer_line_index++;
+        if (odometer_line_index >= ODOMETER_LINE_SIZE || c == '\r') odometer_line_index = 0;
+    }
+}
+
 /*
   main program
  */
@@ -434,11 +493,7 @@ int main(void) {
         }
 
         // process UART
-        switch (usi_getchar()) {
-            case '\r':
-                usi_print(odometer_getValue());
-                break;
-        }
+        odometer_terminal();
 
         // wait for eeprom
         while (eeprom_busy());

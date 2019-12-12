@@ -38,8 +38,11 @@
 #define true 1
 #define false 0
 #define PULSES_PER_WHEEL_TURN 13
-#define BAUD_DELAY 98
+#define USI_BAUD_DELAY 96
+#define USI_RX_BUFFER_SIZE 4
 #define EEPROM_SIZE (E2END+1)
+#define ODOMETER_MAX_VALUE ((uint32_t)(EEPROM_SIZE*16)*(EEPROM_SIZE*16))
+#define ODOMETER_LINE_SIZE 16
 
 enum {
     ON, OFF, TOGGLE
@@ -52,8 +55,11 @@ volatile uint16_t eeprom_index_high;
 volatile uint16_t eeprom_index_low;
 volatile uint8_t led_strobe = false;
 volatile uint8_t wheel_turned = false;
-volatile uint8_t usi_rx_data = 0;
-volatile uint8_t usi_rx_avail = 0;
+volatile uint8_t usi_rx_head = 0;
+volatile uint8_t usi_rx_tail = 0;
+volatile uint8_t usi_rx_data[USI_RX_BUFFER_SIZE];
+volatile uint8_t odometer_line_index = 0;
+volatile uint8_t odometer_line[ODOMETER_LINE_SIZE];
 
 /* function prototypes */
 
@@ -68,13 +74,13 @@ void ac_disable(void);
 void adc_disable(void);
 void usi_init(void);
 uint8_t usi_reverse(uint8_t b);
-void usi_write(uint8_t c);
-void usi_print(uint32_t value);
-int8_t usi_getchar(void);
+int usi_getchar(void);
+int usi_putchar(char c);
 void odometer_init(void);
 void odometer_increment(void);
 uint32_t odometer_getValue(void);
 void odometer_setValue(uint32_t value);
+void odometer_terminal(void);
 
 #endif
 
