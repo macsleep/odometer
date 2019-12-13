@@ -26,4 +26,8 @@ I replaced the BSS123 transistor with a 2N7002 as a precaution. The 2N7002 from 
 
 Total power consumption is at about 0.51 milli Amps on average (messured at the hub generator input). The power usage fluctuates when the LED comes on. Even more power could be saved by turning off the LED but it is hardly worth it. The main power consumer is the Attiny.
 
+## Serial Port
+
+If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the the USI is strobed in software and not hardware and therefore not as precise as it could be.
+
 Date: 2019-11-17
