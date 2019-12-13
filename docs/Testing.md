@@ -28,6 +28,6 @@ Total power consumption is at about 0.46 milli Amps on average (messured at the 
 
 ## Serial Port
 
-If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the the USI is strobed in software and not hardware and therefore not as precise as it could be.
+If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the the USI is strobed in software (not hardware) and therefore is not as precise as it could be.
 
 Date: 2019-11-17
