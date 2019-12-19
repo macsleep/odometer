@@ -28,8 +28,8 @@ Below you can see the prototype PCB. It is about 20x10 mm in size:
 |Part    |Value              | Package        |
 |:------:|:-----------------:|:--------------:|
 |B2      | MB6S              | SOIC-4         |
-|C1      | 4.7u 100v Ceramic | SMC_D          |
-|C2      | 22u 6.5v Tantalum | SMC_B          |
+|C1      | 4.7u 100v Ceramic | C1812          |
+|C2      | 22u 6.5v Tantalum | SMC_A          |
 |D1      | LL4148            | SOD80C         |
 |IC1     | TINY85V-10SU      | SOIC-8         |
 |IC2     | LT3014            | SOT25          |
