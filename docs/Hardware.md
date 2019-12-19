@@ -37,7 +37,7 @@ Below you can see the prototype PCB. It is about 20x10 mm in size:
 |Q1      | 2N7002            | SOT23          |
 |R1      | 1k                | 0805           |
 |R2      | 470k              | 0805           |
-|R3      | 620k              | 0805           |
+|R3      | 680k              | 0805           |
 |R4      | 100k              | 0805           |
 |R5      | 100k              | 0805           |
 |R6      | 50k               | 0805           |
