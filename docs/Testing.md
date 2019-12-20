@@ -18,10 +18,6 @@ The two pictures below show the signal processing used to count the half waves. 
 
 <img src="images/signal_after_transistor.jpeg" width="200">
 
-## Transistor
-
-I replaced the BSS123 transistor with a 2N7002 as a precaution. The 2N7002 from NXP has a higher gate-source voltage limit (±30 Volts compared to ±20 Volts). Otherwise the specs are pretty much the same.
-
 ## Power Usage
 
 Total power consumption is at about 0.46 milli Amps on average (messured at the hub generator input). The power usage fluctuates when the LED comes on. Even more power could be saved by turning off the LED but it is hardly worth it. The main power consumer is the Attiny.
