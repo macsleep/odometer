@@ -30,8 +30,4 @@ Total power consumption is at about 0.46 milli Amps on average (messured at the 
 
 If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the the USI is strobed in software (not hardware) and therefore is not as precise as it could be.
 
-## High Voltage
-
-I'm beginning to learn more and more about generators. One thing I was not expecting is the voltage the generator produces while running idle. Under load the generator produces the 6 Volts AC. I was expecting something like maybe 12 Volts when it is running idle but this is not the case. The voltage rises almost linear depending on the revolutions per minute of the generator. The SON generators voltage I use increases by about 17.5 Volts for every 20 km/h increase in speed on my bicycle. Since I use my bicycle mostly without the lights on the odometer will have to deal with these high voltages. I have replaced the LDO regulator (again) with an LT3014 which can handle up to 80 Volts of input. And I have also replaced the capacitor behind the rectifier with a 100 Volt Ceramic. I don't want to shunt the high voltage and thus produce load on the generator. The odometer should use as little power as possible (less or equal to 1 milli Watt).
-
 Date: 2019-11-17

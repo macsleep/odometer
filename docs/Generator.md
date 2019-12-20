@@ -10,4 +10,6 @@ And this image shows the voltage under load with the lights on:
 
 ![load](images/hub-generator-load.jpeg)
 
+Depending upon the revolutions per minute of the front wheel (speed of the bicycle) the voltage of the generator changes when running idle (without the lights on). The SON generator produces about 17.5 Volts at 20 km/h and twice as much at 40 km/h etc. This is an almost linear relationship that leads to very high voltages at high speeds.
+ 
 Date: 2019-11-05
