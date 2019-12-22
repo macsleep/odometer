@@ -18,11 +18,6 @@ The JST connector has the six pins needed for the **I**n **S**ystem **P**rogramm
 
 There are two additional pads on the input side of the voltage regulator. These are for adding an extra polarised capacitor if needed.
 
-Below you can see the prototype PCB. It is about 20x10 mm in size:
-
-<img src="images/pcb_top.jpeg" width="200">
-<img src="images/pcb_bottom.jpeg" width="200">
-
 ## Parts List
 
 |Part    |Value              | Package        |
@@ -64,5 +59,12 @@ JST SH 6 pin connector 1mm pitch
 * 4 RX
 * 5 
 * 6 GND
+
+## PCB
+
+Below you can see a prototype for testing. It is about 10x20 mm in size:
+
+<img src="images/pcb_top.jpeg" width="200">
+<img src="images/pcb_bottom.jpeg" width="200">
 
 Date: 2019-11-18
