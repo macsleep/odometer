@@ -1,17 +1,15 @@
-#!/usr/bin/perl -w
-
-#
-# 2.11.2019 Jan Schlieper
+#!/usr/bin/perl
 #
 # This script can be used to retrieve the odometer wheel
 # turns and convert them into kilometers the bike traveled.
 #
 # Edit the port variable to the serial port you want to use.
-# Adjust wheel_circumference to the wheel on your bike. Mine
-# is a 26" wheel (55 559).
+# Adjust the wheel_circumference variable to the wheel on
+# your bike. Mine is a 26" wheel (55 559).
 #
 
 use strict;
+use warnings;
 use Math::Trig;
 use Device::SerialPort;
 
