@@ -1,24 +1,40 @@
 #!/usr/bin/perl
 #
 # This script can be used to retrieve the odometer wheel
-# turns and convert them into kilometers the bike traveled.
+# turns and convert them into kilometers/miles the bike
+# has traveled.
 #
-# Edit the port variable to the serial port you want to use.
-# Adjust the wheel_circumference variable to the wheel on
-# your bike. Mine is a 26" wheel (55 559).
+# Edit the default values for the serial port and front
+# wheel size you want to use.
 #
 
 use strict;
 use warnings;
 use Math::Trig;
+use Getopt::Std;
 use Device::SerialPort;
 
-my $port = '/dev/tty.usbserial-A403JXK2';
-my $wheel_circumference = 26*2.54/100*pi;
+my %args = ();
+
+# read options
+getopts("hmp:d:", \%args);
+
+# default values
+$args{'d'} = 26 unless defined $args{'d'};
+$args{'p'} = '/dev/tty.usbserial-A403JXK2' unless defined $args{'p'};
+
+# print help
+if($args{'h'}) {
+	printf("-h print help\n");
+	printf("-m output distance in miles (default kilometers)\n");
+	printf("-p <port> serial device port to use\n");
+	printf("-d <diameter> bicycle front wheel diameter in inches\n");
+	exit 0;
+}
 
 # use SerialPort to configure
-my $dev = Device::SerialPort->new($port);
-$dev or die "can't open $port\n";
+my $dev = Device::SerialPort->new($args{'p'});
+$dev or die "can't open $args{'p'}\n";
 
 # config
 $dev->baudrate(9600);
@@ -43,9 +59,16 @@ print FH "p\r";
 my $rotations = <FH>;
 chomp $rotations;
 
-# calculate kilometers
-my $km = ($rotations * $wheel_circumference)/1000;
-printf("%.1f km\n", $km);
+# calculate distance
+if($args{'m'}) {
+	my $circumference = $args{'d'}*pi;
+	my $distance = ($rotations * $circumference)/63360;
+	printf("%.1f mi\n", $distance);
+} else {
+	my $circumference = $args{'d'}*2.54/100*pi;
+	my $distance = ($rotations * $circumference)/1000;
+	printf("%.1f km\n", $distance);
+}
 
 # finish
 close FH;
