@@ -16,7 +16,7 @@ use Device::SerialPort;
 
 my %args = ();
 
-# read options
+# command line arguments
 getopts("hmp:d:", \%args);
 
 # default values
@@ -24,12 +24,12 @@ $args{'d'} = 26 unless defined $args{'d'};
 $args{'p'} = '/dev/tty.usbserial-A403JXK2' unless defined $args{'p'};
 
 # print help
-if($args{'h'}) {
-	printf("-h print help\n");
-	printf("-m output distance in miles (default kilometers)\n");
-	printf("-p <port> serial device port to use\n");
-	printf("-d <diameter> bicycle front wheel diameter in inches\n");
-	exit 0;
+if(defined $args{'h'} or not $args{'d'} =~ /^-?\d+\.?\d*$/) {
+    printf("-h             print help\n");
+    printf("-m             output distance in miles (default kilometers)\n");
+    printf("-p <port>      serial device port to use\n");
+    printf("-d <diameter>  bicycle front wheel diameter in inches\n");
+    exit 0;
 }
 
 # use SerialPort to configure
@@ -61,13 +61,13 @@ chomp $rotations;
 
 # calculate distance
 if($args{'m'}) {
-	my $circumference = $args{'d'}*pi;
-	my $distance = ($rotations * $circumference)/63360;
-	printf("%.1f mi\n", $distance);
+    my $circumference = $args{'d'} * pi;
+    my $distance = ($rotations * $circumference) / 63360;
+    printf("%.1f mi\n", $distance);
 } else {
-	my $circumference = $args{'d'}*2.54/100*pi;
-	my $distance = ($rotations * $circumference)/1000;
-	printf("%.1f km\n", $distance);
+    my $circumference = $args{'d'} * 2.54 / 100 * pi;
+    my $distance = ($rotations * $circumference) / 1000;
+    printf("%.1f km\n", $distance);
 }
 
 # finish
