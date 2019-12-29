@@ -24,7 +24,7 @@ $args{'d'} = 26 unless defined $args{'d'};
 $args{'p'} = '/dev/tty.usbserial-A403JXK2' unless defined $args{'p'};
 
 # print help
-if(defined $args{'h'} or not $args{'d'} =~ /^-?\d+\.?\d*$/) {
+if(defined $args{'h'} or not $args{'d'} =~ /^\d+\.?\d*$/) {
     printf("-h             print help\n");
     printf("-m             output distance in miles (default kilometers)\n");
     printf("-p <port>      serial device port to use\n");
