@@ -270,31 +270,31 @@ ISR(PCINT0_vect) {
  */
 
 void odometer_init(void) {
-    uint8_t a, b, step_high = true, step_low = true;
+    uint8_t a, b, exec_high = true, exec_low = true;
     int16_t i, i_high = 0, i_low = -1;
 
     a = eeprom_read(EEPROM_SIZE - 1);
     for (i = 0; i < EEPROM_SIZE; i++) {
         b = eeprom_read(i);
 
-        // step high
+        // step in high nibble
         if ((((a >> 4) + 1) & 0x0f) == (b >> 4)) {
             a = (b & 0xf0) | (a & 0x0f);
         }
-        if (step_high && ((a >> 4) == (((b >> 4) + 1) & 0x0f))) {
-            i_high = i;
-            step_high = false;
+        if (exec_high && ((a >> 4) == (((b >> 4) + 1) & 0x0f))) {
             a = (b & 0xf0) | (a & 0x0f);
+            exec_high = false;
+            i_high = i;
         }
 
-        // step low
+        // step in low nibble
         if ((((a & 0x0f) + 1) & 0x0f) == (b & 0x0f)) {
             a = (a & 0xf0) | (b & 0x0f);
         }
-        if (step_low && ((a & 0x0f) == (((b & 0x0f) + 1) & 0x0f))) {
-            i_low = i;
-            step_low = false;
+        if (exec_low && ((a & 0x0f) == (((b & 0x0f) + 1) & 0x0f))) {
             a = (a & 0xf0) | (b & 0x0f);
+            exec_low = false;
+            i_low = i;
         }
 
         // consistency check
@@ -304,8 +304,7 @@ void odometer_init(void) {
     }
 
     // index low
-    eeprom_index_low = i_high + 1;
-    if (i_low != -1) eeprom_index_low = i_low;
+    eeprom_index_low = (i_low != -1) ? i_low : i_high + 1;
     if (eeprom_index_low >= EEPROM_SIZE) eeprom_index_low = 0;
 
     // index high
