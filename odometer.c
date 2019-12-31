@@ -304,7 +304,7 @@ void odometer_init(void) {
     }
 
     // index low
-    eeprom_index_low = (i_low != -1) ? i_low : i_high + 1;
+    eeprom_index_low = (i_low < 0) ? i_high + 1 : i_low;
     if (eeprom_index_low >= EEPROM_SIZE) eeprom_index_low = 0;
 
     // index high
