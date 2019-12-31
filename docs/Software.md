@@ -8,7 +8,7 @@ The odometer uses timer/counter 0 to count the pulses sent by the hub generator.
 
 ## Usage
 
-The simplest way to readout the odometer is to use a terminal program like `screen`. After connecting to the serial adapter press "p" and "return" and the odometer will display the the total number of wheel turns. To exit `screen` press "control a" and "k".
+The simplest way to readout the odometer is to use a terminal program like `screen`. After connecting to the serial adapter press "p" and "return" and the odometer will display the total number of wheel turns. To exit `screen` press "control a" and "k".
 
 <pre>
 mini% screen /dev/tty.usbserial-A403JXK2 9600
