@@ -277,7 +277,7 @@ void odometer_init(void) {
     for (i = 0; i < EEPROM_SIZE; i++) {
         b = eeprom_read(i);
 
-        // step in high nibble
+        // step in high nibbles
         if ((((a >> 4) + 1) & 0x0f) == (b >> 4)) {
             a = (b & 0xf0) | (a & 0x0f);
         }
@@ -287,7 +287,7 @@ void odometer_init(void) {
             i_high = i;
         }
 
-        // step in low nibble
+        // step in low nibbles
         if ((((a & 0x0f) + 1) & 0x0f) == (b & 0x0f)) {
             a = (a & 0xf0) | (b & 0x0f);
         }
