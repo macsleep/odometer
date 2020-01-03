@@ -17,7 +17,7 @@ This is a project for a bicycle odometer. The odometer will record the front whe
 
 * AVR 8-bit gcc toolchain
 	* available here: [Microchip](http://www.microchip.com/),[avr-gcc](https://www.microchip.com/mplab/avr-support/avr-and-arm-toolchains-c-compilers)
-* GNU Make tool
+* GNU Make
 	* available here: [GNU](http://www.gnu.org),[make](https://www.gnu.org/software/make/)
 * The **AVR** **D**ownloader/**U**ploa**DE**r
 	* available here: [Savannah](http://savannah.nongnu.org),[avrdude](https://www.nongnu.org/avrdude/)

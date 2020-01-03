@@ -35,7 +35,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |R3      | 680k              | 0805           |
 |R4      | 100k              | 0805           |
 |R5      | 100k              | 0805           |
-|R6      | 50k               | 0805           |
+|R6      | 62k               | 0805           |
 |X1      | SM06B-SSR-H-TB    | SM06B-SSR-H-TB |
 
 ## ISP Pinout
