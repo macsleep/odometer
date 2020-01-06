@@ -65,7 +65,7 @@ if($args{'m'}) {
     my $distance = ($rotations * $circumference) / 63360;
     printf("%.1f mi\n", $distance);
 } else {
-    my $circumference = $args{'d'} * 2.54 / 100 * pi;
+    my $circumference = $args{'d'} * 0.0254 * pi;
     my $distance = ($rotations * $circumference) / 1000;
     printf("%.1f km\n", $distance);
 }
