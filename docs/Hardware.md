@@ -8,7 +8,7 @@ The Attiny85 is a "V" version which means it can run on lower voltages (2.1 Volt
 
 Brown-out detection is set to 1.8 Volts using the fuses of the Attiny85. It is very important to enable brown-out detection or otherwise the EEPROM content will get corrupt. Brown-out detection makes sure any ongoing EEPROM write will get done in case the power starts failing. 
 
-The LT3014 LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 2 Volts. In shutdown mode the voltage regulator uses (almost) no power.
+The LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 1.3 Volts. In shutdown mode the voltage regulator uses (almost) no power.
 
 The AC voltage of the hub generator is also rectified by a single diode. This signal is then cleaned up by a transistor and feed into counter/timer 0 of the tiny.
 
