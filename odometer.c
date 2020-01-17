@@ -495,6 +495,7 @@ int main(void) {
             odometer_increment();
         }
 
+#ifndef NOLED
         // flash led
         if (led_strobe) {
             led_strobe = false;
@@ -502,6 +503,7 @@ int main(void) {
             _delay_ms(1);
             led(OFF);
         }
+#endif
 
         // process UART
         odometer_terminal();
