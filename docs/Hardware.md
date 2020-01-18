@@ -23,7 +23,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |Part    |Value              | Package        |
 |:------:|:-----------------:|:--------------:|
 |B2      | MB6S              | SOIC-4         |
-|C1      | 22u 100v Ceramic  | C1812          |
+|C1      | 22u 100v Ceramic  | C2220          |
 |C2      | 22u 6.5v Tantalum | SMC_A          |
 |D1      | LL4148            | SOD80C         |
 |D2      | S-101T            | S series       |
