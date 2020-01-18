@@ -10,7 +10,7 @@ Brown-out detection is set to 1.8 Volts using the fuses of the Attiny85. It is v
 
 The LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 1.3 Volts. In shutdown mode the voltage regulator uses (almost) no power.
 
-The AC voltage of the hub generator is also rectified by a single diode. This signal is then cleaned up by a transistor and feed into counter/timer 0 of the tiny.
+The AC voltage of the hub generator is also rectified by a single diode. The **C**urrent **R**egulating **D**iode (CRD) makes sure the gate source voltage of the transistor is not exceeded. The cleaned up, voltage adjusted, inverted signal at the drain is then feed into counter/timer 0 of the tiny.
 
 To get some optical feedback of the odometer working port 3 of the tiny is connected to a LED.
 
@@ -23,7 +23,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |Part    |Value              | Package        |
 |:------:|:-----------------:|:--------------:|
 |B2      | MB6S              | SOIC-4         |
-|C1      | 4.7u 100v Ceramic | C1812          |
+|C1      | 22u 100v Ceramic  | C1812          |
 |C2      | 22u 6.5v Tantalum | SMC_A          |
 |D1      | LL4148            | SOD80C         |
 |D2      | S-101T            | S series       |
@@ -34,9 +34,8 @@ There are two additional pads on the input side of the voltage regulator. These 
 |R1      | 1k                | 0805           |
 |R2      | 470k              | 0805           |
 |R3      | 680k              | 0805           |
-|R4      | 47k               | 0805           |
-|R5      | 200k              | 0805           |
-|R6      | 100k              | 0805           |
+|R4      | 100k              | 0805           |
+|R5      | 100k              | 0805           |
 |X1      | SM06B-SSR-H-TB    | SM06B-SSR-H-TB |
 
 ## ISP Pinout
