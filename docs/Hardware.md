@@ -26,7 +26,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |C1      | 4.7u 100v Ceramic | C1812          |
 |C2      | 22u 6.5v Tantalum | SMC_A          |
 |D1      | LL4148            | SOD80C         |
-|D2      | Zener 27v         | SOD80C         |
+|D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |
 |IC2     | LT3014            | SOT25          |
 |LED1    | RED               | 0805           |
@@ -35,7 +35,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |R2      | 470k              | 0805           |
 |R3      | 680k              | 0805           |
 |R4      | 47k               | 0805           |
-|R5      | 200k               | 0805           |
+|R5      | 200k              | 0805           |
 |R6      | 100k              | 0805           |
 |X1      | SM06B-SSR-H-TB    | SM06B-SSR-H-TB |
 
