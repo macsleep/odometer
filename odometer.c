@@ -117,7 +117,9 @@ void timer0_init(void) {
 
 ISR(TIMER0_COMPA_vect) {
     wheel_turned = true;
+#ifndef NOLED
     led_strobe = true;
+#endif
 }
 
 /*
@@ -495,7 +497,6 @@ int main(void) {
             odometer_increment();
         }
 
-#ifndef NOLED
         // flash led
         if (led_strobe) {
             led_strobe = false;
@@ -503,7 +504,6 @@ int main(void) {
             _delay_ms(1);
             led(OFF);
         }
-#endif
 
         // process UART
         odometer_terminal();
