@@ -8,7 +8,7 @@ Here is what the voltage looks like once it's failing on the output side of the 
 
 <img src="images/power_starts_failing.jpeg" width="200">
 
-The two pictures below show the signal processing used to count the half waves. The first image shows the signal at the gate of the transistor after being rectified by the diode. And the second one shows the clean, inverted signal at the drain/input into timer/counter 0.
+The two pictures below show the signal processing used to count the half waves. The first image shows the signal after being rectified by the diode. And the second one shows the signal at the gate (channel 1) and drain (channel 2) of the transistor. You can see the **C**urrent **R**egulating **D**iode (CRD) pinching off the excess voltage at around 6 Volts. Channel 2 shows the cleaned, voltage adjusted, inverted signal feed into timer/counter 0.
 
 <img src="images/signal_half_waves.jpeg" width="200">
 
