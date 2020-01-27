@@ -31,7 +31,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |D1      | LL4148            | SOD80C         |
 |D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |
-|IC2     | LT3014            | SOT25          |
+|IC2     | TS5205            | SOT25          |
 |LED1    | RED               | 0805           |
 |Q1      | 2N7002            | SOT23          |
 |Q2      | BSS169            | SOT23          |
