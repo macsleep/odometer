@@ -40,7 +40,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |R3      | 330k              | 0805           |
 |R4      | 130k              | 0805           |
 |R5      | 470k              | 0805           |
-|R6      | 150k              | 0805           |
+|R6      | 160k              | 0805           |
 |R7      | 910k              | 0805           |
 |X1      | SM06B-SSR-H-TB    | SM06B-SSR-H-TB |
 
