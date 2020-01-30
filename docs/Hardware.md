@@ -8,7 +8,7 @@ The Attiny85 is a "V" version which means it can run on lower voltages (2.1 Volt
 
 Brown-out detection is set to 1.8 Volts using the fuses of the Attiny85. It is very important to enable brown-out detection or otherwise the EEPROM content will get corrupt. Brown-out detection makes sure any ongoing EEPROM write will get done in case the power starts failing.
 
-The transistor Q2 is a depletion mode MOSFET which is conductive by default without a voltage at the gate. It has a low initial resistance of only about 6 Ohm. By applying a negative Voltage at the gate the conductivity is reduced. It's job is to keep any voltages greater than 20 Volts away from the LDO voltage regulator
+The transistor Q2 is a depletion mode MOSFET which is conductive by default without a voltage at the gate. It has a low initial resistance of only about 6 Ohm. By applying a negative Voltage at the gate the conductivity is reduced. It's job is to keep any voltages greater than 16 Volts away from the LDO voltage regulator
 and at the same time provide as little resistance as possible at lower voltages.
 
 The LDO voltage regulator has an enable pin which shuts down the regulator when the input voltage goes below 2 Volts. In shutdown mode the voltage regulator uses (almost) no power.
@@ -31,7 +31,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |D1      | LL4148            | SOD80C         |
 |D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |
-|IC2     | TS5205            | SOT25          |
+|IC2     | TS5205CX5         | SOT25          |
 |LED1    | RED               | 0805           |
 |Q1      | 2N7002            | SOT23          |
 |Q2      | BSS169            | SOT23          |
