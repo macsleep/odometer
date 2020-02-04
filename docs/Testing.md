@@ -6,7 +6,7 @@ Below you can see the depletion mode MOSFET Q2 keeping any excess voltage greate
 
 <hr>
 
-The two pictures below show the signal processing used to count the half waves. The first image shows the signal before and after the **C**urrent **R**egulating **D**iode (CRD). You can see the CRD pinching off the excess voltage at around 8 Volts. And the second one shows the signal at the gate (channel 1) and drain (channel 2) of the transistor Q1. Channel 2 shows the cleaned, voltage adjusted, inverted signal feed into timer/counter 0.
+The two pictures below show the signal processing used to count the half waves. The first image shows the signal before and after the **C**urrent **R**egulating **D**iode (CRD). You can see the CRD pinching off the excess voltage at around 7 Volts. And the second one shows the signal at the gate (channel 1) and drain (channel 2) of the transistor Q1. Channel 2 shows the cleaned, voltage adjusted, inverted signal feed into timer/counter 0.
 
 <img src="images/CDR-signal.jpeg" width="200">
 
