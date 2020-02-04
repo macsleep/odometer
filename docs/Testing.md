@@ -23,7 +23,7 @@ The image below shows the signal being feed into timer/counter 0 (channel 1). An
 
 <hr>
 
-Total power consumption is at about 0.46 milli Amps on average (measured at the hub generator input). The power usage fluctuates when the LED comes on. Even more power could be saved by turning off the LED but it is hardly worth it. The main power consumer is the Attiny.
+Total power consumption is at about 0.46 milli Amps on average (measured at the hub generator input). The peak usage meassured is 1.17 milli Amps. The power usage fluctuates when the LED comes on. Even more power could be saved by turning off the LED but it is hardly worth it. The main power consumer is the Attiny.
 
 <hr>
 
