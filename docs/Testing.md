@@ -15,9 +15,9 @@ The two pictures below show the signal processing used to count the half waves. 
 <hr>
 
 
-The image below shows the signal being feed into timer/counter 0 (channel 1). And the second signal shows the 2.1 Volts used to power the tiny (channel 2). The image was taken when the power started failing which can be seen by the little dents in the supply voltage. The full wave period of the timer/counter 0 signal is at about 230 milli seconds. Using this you can calculate the speed the front wheel was moving with when the power started failing (assuming a 26" wheel):
+The image below shows the signal being feed into timer/counter 0 (channel 1). And the second signal shows the 2.1 Volts used to power the tiny (channel 2). The image was taken when the power started failing which can be seen by the little dents in the supply voltage. The full wave period of the timer/counter 0 signal is at about 240 milli seconds. Using this you can calculate the speed the front wheel was moving with when the power started failing (assuming a 26" wheel):
 
-((2.075 m / (0.23 s x 13)) x 60 x 60) / 1000 ≈ 2.49 km/h  
+((2.075 m / (0.24 s x 13)) x 60 x 60) / 1000 ≈ 2.39 km/h  
 
 <img src="images/power-starts-failing.jpeg" width="200">
 
