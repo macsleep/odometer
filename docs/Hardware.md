@@ -19,8 +19,6 @@ To get some optical feedback of the odometer working port 3 of the tiny is conne
 
 The JST connector has the six pins needed for the **I**n **S**ystem **P**rogramming (ISP). The half duplex UART implemented using the **U**niversal **S**erial **I**nterface (USI) is also accessible via this connector. The UART operates with 9600 baud, 8 data, no parity and 1 stop bit. RX and TX are TTL level inputs/outputs.
 
-There are two additional pads on the input side of the voltage regulator. These are for adding an extra polarized capacitor if needed.
-
 ## Parts List
 
 |Part    |Value              | Package        |
