@@ -1,7 +1,5 @@
 # Testing
 
----
-
 Below you can see the depletion mode MOSFET Q2 keeping any excess voltage greater than 13 Volts away from the voltage regulator. Channel 1 shows the signal at the drain and channel 2 the signal at the source of transistor Q2. You can see the voltage being smoothed by capacitor C1 when the transistor is conductive and the rectified half waves greater than 13 Volts at the drain when the transistor is non conductive.
 
 <img src="images/Q2-signal.jpeg" width="200">
