@@ -27,7 +27,7 @@ There are two additional pads on the input side of the voltage regulator. These 
 |:------:|:-----------------:|:--------------:|
 |B2      | MB6S              | SOIC-4         |
 |C1      | 33u 20v Tantalum  | SMC_C          |
-|C2      | 22u 6.5v Tantalum | SMC_A          |
+|C2      | 22u 6.3v Tantalum | SMC_A          |
 |D1      | LL4148            | SOD80C         |
 |D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |

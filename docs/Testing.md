@@ -1,10 +1,12 @@
 # Testing
 
+---
+
 Below you can see the depletion mode MOSFET Q2 keeping any excess voltage greater than 13 Volts away from the voltage regulator. Channel 1 shows the signal at the drain and channel 2 the signal at the source of transistor Q2. You can see the voltage being smoothed by capacitor C1 when the transistor is conductive and the rectified half waves greater than 13 Volts at the drain when the transistor is non conductive.
 
 <img src="images/Q2-signal.jpeg" width="200">
 
-<hr>
+---
 
 The two pictures below show the signal processing used to count the half waves. The first image shows the signal before and after the **C**urrent **R**egulating **D**iode (CRD). You can see the CRD pinching off the excess voltage at around 7 Volts. And the second one shows the signal at the gate (channel 1) and drain (channel 2) of the transistor Q1. Channel 2 shows the cleaned, voltage adjusted, inverted signal feed into timer/counter 0.
 
@@ -12,8 +14,7 @@ The two pictures below show the signal processing used to count the half waves. 
 
 <img src="images/Q1-signal.jpeg" width="200">
 
-<hr>
-
+---
 
 The image below shows the signal being feed into timer/counter 0 (channel 1). And the second signal shows the 2.1 Volts used to power the tiny (channel 2). The image was taken when the power started failing which can be seen by the little dents in the supply voltage. The full wave period of the timer/counter 0 signal is at about 240 milli seconds. Using this you can calculate the speed the front wheel was moving with when the power started failing (assuming a 26" wheel):
 
@@ -21,11 +22,11 @@ The image below shows the signal being feed into timer/counter 0 (channel 1). An
 
 <img src="images/power-starts-failing.jpeg" width="200">
 
-<hr>
+---
 
 Total power consumption is at about 0.46 milli Amps on average (measured at the hub generator input). The peak usage meassured is 1.17 milli Amps. The power usage fluctuates when the LED comes on. Even more power could be saved by turning off the LED but it is hardly worth it. The main power consumer is the Attiny.
 
-<hr>
+---
 
 If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the USI is strobed in software (not hardware) and therefore is not as precise as it could be.
 
