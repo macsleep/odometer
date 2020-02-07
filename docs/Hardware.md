@@ -37,8 +37,8 @@ The JST connector has the six pins needed for the **I**n **S**ystem **P**rogramm
 |R2      | 200k              | 0805           |
 |R3      | 300k              | 0805           |
 |R4      | 130k              | 0805           |
-|R5      | 470k              | 0805           |
-|R6      | 160k              | 0805           |
+|R5      | 430k              | 0805           |
+|R6      | 180k              | 0805           |
 |R7      | 910k              | 0805           |
 |X1      | SM06B-SSR-H-TB    | SM06B-SSR-H-TB |
 
