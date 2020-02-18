@@ -37,12 +37,32 @@
 
 #define true 1
 #define false 0
+
+/**
+ * Here you can define the number of full-waves sent by your
+ * generator. The SON 28 generator I have produces 13 full
+ * waves per wheel turn.
+ */
 #define PULSES_PER_WHEEL_TURN 13
-#define USI_BAUD_DELAY 96
+
+/**
+ * The baud rate is specified in micro seconds (1/9600 => 104).
+ * Remember the UART is only half duplex and the routines
+ * are not interrupt save.
+ */
+#define USI_BAUD_DELAY 104
 #define USI_RX_BUFFER_SIZE 4
+
+/**
+ * The E2END value for a tiny is defined in include avr/io.h.
+ */
 #define EEPROM_SIZE (E2END+1)
-#define ODOMETER_MAX_VALUE ((uint32_t)(EEPROM_SIZE*16)*(EEPROM_SIZE*16))
+
+// odometer macros
 #define ODOMETER_LINE_SIZE 16
+#define ODOMETER_MAX_VALUE ((uint32_t)(EEPROM_SIZE*16)*(EEPROM_SIZE*16))
+
+// software version
 #ifndef VERSION
 #define VERSION "?.?"
 #endif

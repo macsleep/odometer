@@ -179,7 +179,10 @@ uint8_t usi_reverse(uint8_t b) {
 }
 
 int usi_putchar(char c) {
-    uint8_t i;
+    uint8_t i, data;
+
+    // bit swap
+    data = usi_reverse(c);
 
     // disable pin change interrupt
     PCMSK &= ~(1 << PCINT0);
@@ -190,20 +193,18 @@ int usi_putchar(char c) {
     // start bit
     USIDR = (0 << 7);
 
-    // enable TX
+    // enable TX/start bit
     DDRB |= (1 << PB1);
-
-    // start bit delay
-    _delay_us(USI_BAUD_DELAY - 17);
+    _delay_us(USI_BAUD_DELAY);
 
     // load data
-    USIDR = usi_reverse(c);
-    _delay_us(USI_BAUD_DELAY);
+    USIDR = data;
+    _delay_us(USI_BAUD_DELAY - 4);
 
     for (i = 0; i < 7; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(USI_BAUD_DELAY);
+        _delay_us(USI_BAUD_DELAY - 4);
     }
 
     // stop bit
@@ -244,12 +245,12 @@ ISR(PCINT0_vect) {
     USISR = (1 << USIOIF) | 8;
 
     // wait start bit
-    _delay_us(USI_BAUD_DELAY + 10);
+    _delay_us(USI_BAUD_DELAY - 4);
 
     for (i = 0; i < 8; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(USI_BAUD_DELAY);
+        _delay_us(USI_BAUD_DELAY - 9);
     }
 
     // move head
