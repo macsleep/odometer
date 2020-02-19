@@ -26,6 +26,6 @@ Total power consumption is at about 0.46 milli Amps on average (measured at the 
 
 ---
 
-If you run into issues with the serial connection try adjusting the USI_BAUD_DELAY value in the odometer.h file. By increasing or decreasing the value by 1 or 2 you can adjust the baud rate to slightly different hardware like e.g. the internal oscillator or another serial adapter. Please remember the USI is strobed in software (not hardware) and therefore is not as precise as it could be.
+If you run into issues with the serial connection try calibrating the Attinys internal oscillator. The calibration can be set using the fuses or the OSCCAL register in the `usi_init` function. The internal oscillator is a little bit different for every tiny produced. I have tried doing the timing in the USI functions with a well calibrated tiny. The USI functions have also been tested with rates of 1200 to 19200 Baud (see the `USI_BAUD_DELAY` macro).
 
 Date: 2020-02-04

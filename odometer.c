@@ -151,6 +151,9 @@ void adc_disable(void) {
  */
 
 void usi_init(void) {
+    // internal oscillator calibration
+    // OSCCAL += -5;
+
     // define RX as input
     DDRB &= ~(1 << PB0);
 
@@ -195,7 +198,7 @@ int usi_putchar(char c) {
 
     // enable TX/start bit
     DDRB |= (1 << PB1);
-    _delay_us(USI_BAUD_DELAY);
+    _delay_us(USI_BAUD_DELAY - 2);
 
     // load data
     USIDR = data;
@@ -204,7 +207,8 @@ int usi_putchar(char c) {
     for (i = 0; i < 7; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(USI_BAUD_DELAY - 4);
+
+        _delay_us(USI_BAUD_DELAY - 8);
     }
 
     // stop bit
@@ -245,12 +249,12 @@ ISR(PCINT0_vect) {
     USISR = (1 << USIOIF) | 8;
 
     // wait start bit
-    _delay_us(USI_BAUD_DELAY - 4);
+    _delay_us(USI_BAUD_DELAY - 2);
 
     for (i = 0; i < 8; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-        _delay_us(USI_BAUD_DELAY - 9);
+        _delay_us(USI_BAUD_DELAY - 8);
     }
 
     // move head
