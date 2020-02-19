@@ -207,7 +207,6 @@ int usi_putchar(char c) {
     for (i = 0; i < 7; i++) {
         // software strobe USI
         USICR |= (1 << USICLK);
-
         _delay_us(USI_BAUD_DELAY - 8);
     }
 
