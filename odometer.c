@@ -478,7 +478,6 @@ void odometer_terminal(void) {
  */
 
 int main(void) {
-
     // save power
     wdt_disable();
     ac_disable();
