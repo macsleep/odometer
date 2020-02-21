@@ -59,8 +59,8 @@
  * This is the value added to the OSCCAL register to calibrate
  * the internal oscillator.
  */
-#ifndef INT_OSC_CAL
-#define INT_OSC_CAL 0
+#ifndef INTERNAL_OSCILLATOR_CALIBRATION
+#define INTERNAL_OSCILLATOR_CALIBRATION 0
 #endif
 
 /**

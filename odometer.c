@@ -152,7 +152,7 @@ void adc_disable(void) {
 
 void usi_init(void) {
     // internal oscillator calibration
-    OSCCAL += INT_OSC_CAL;
+    OSCCAL += INTERNAL_OSCILLATOR_CALIBRATION;
 
     // define RX as input
     DDRB &= ~(1 << PB0);

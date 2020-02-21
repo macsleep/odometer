@@ -6,7 +6,7 @@
 # optional CFLAGS defines:
 #   -DPULSES_PER_WHEEL_TURN=<value>
 #   -DNOLED
-#   -DINT_OSC_CAL=<value>
+#   -DINTERNAL_OSCILLATOR_CALIBRATION=<value>
 #
 
 MCU=attiny85
