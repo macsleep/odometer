@@ -1,3 +1,13 @@
+#
+# --------------------------------------
+#       Odometer Project Makefile
+# --------------------------------------
+#
+# optional CFLAGS defines:
+#   -DPULSES_PER_WHEEL_TURN=<value>
+#   -DNOLED
+#   -DINT_OSC_CAL=<value>
+#
 
 MCU=attiny85
 F_CPU=1000000
@@ -12,7 +22,7 @@ all: $(TARGET).hex
 
 %.hex: %.obj
 	avr-size --mcu=$(MCU) --format=avr $<
-#	avr-objdump -h -d -S -z $< > $(TARGET).lss
+	# avr-objdump -h -d -S -z $< > $(TARGET).lss
 	avr-objcopy -R .eeprom -O ihex $< $@
 
 %.obj: $(OBJ)

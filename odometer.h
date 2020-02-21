@@ -43,7 +43,9 @@
  * generator. The SON 28 generator I have produces 13 full
  * waves per wheel turn.
  */
+#ifndef PULSES_PER_WHEEL_TURN
 #define PULSES_PER_WHEEL_TURN 13
+#endif
 
 /**
  * The baud rate is specified in micro seconds (1/9600 => 104).
@@ -52,6 +54,14 @@
  */
 #define USI_BAUD_DELAY 104
 #define USI_RX_BUFFER_SIZE 4
+
+/**
+ * This is the value added to the OSCCAL register to calibrate
+ * the internal oscillator.
+ */
+#ifndef INT_OSC_CAL
+#define INT_OSC_CAL 0
+#endif
 
 /**
  * The E2END value for a tiny is defined in include avr/io.h.
