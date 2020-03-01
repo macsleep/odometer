@@ -23,7 +23,7 @@ Each EEPROM byte can be written at least 100,000 times which leeds to a total of
 
 ## Content
 
-You can take a look at the EEPROM content using the AVR ISP and avrdude:
+You can take a look at the EEPROM content using the AVR ISP and AVRDUDE:
 
 <pre>
 mini% make eeprom

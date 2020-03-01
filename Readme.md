@@ -9,7 +9,7 @@ This is a project for a bicycle odometer. The odometer will record the front whe
 * Odometer
 	* Please see the [schematic](docs/Hardware.md) for details.
 * AVR ISP (**I**n **S**ystem **P**rogrammer)
-	* The programmer should work together with [avrdude](https://www.nongnu.org/avrdude/). I e.g. use Dean Camera's [AVRISP-MKII Clone](https://www.fourwalledcubicle.com/AVRISP.php) but any other AVR ISP should also be fine.
+	* The programmer should work together with [AVRDUDE](https://www.nongnu.org/avrdude/). I e.g. use Dean Camera's [AVRISP-MKII Clone](https://www.fourwalledcubicle.com/AVRISP.php) but any other AVR ISP should also be fine.
 * A USB to Serial Adapter
 	* It needs to have TTL level inputs/outputs and preferably 3.3-5 Volts power output like e.g. the [Adafruit FTDI Friend](https://www.adafruit.com/product/284).
 
@@ -20,7 +20,7 @@ This is a project for a bicycle odometer. The odometer will record the front whe
 * GNU Make
 	* available here: [GNU](http://www.gnu.org), [make](https://www.gnu.org/software/make/)
 * The **AVR** **D**ownloader/**U**ploa**DE**r
-	* available here: [Savannah](http://savannah.nongnu.org), [avrdude](https://www.nongnu.org/avrdude/)
+	* available here: [Savannah](http://savannah.nongnu.org), [AVRDUDE](https://www.nongnu.org/avrdude/)
 
 ## Build
 
@@ -34,13 +34,12 @@ This will remove any old build files, rebuild the Intel hex file and download th
 
 * `make fuse`
 
-The fuses only need to be set once. If you don't want to build the hex file yourself you can also just flash the odometer.hex.save file using avrdude:
+The fuses only need to be set once. If you don't want to build the hex file yourself you can also just flash the odometer.hex.save file using AVRDUDE:
 
 `avrdude -q -F -P usb -c avrispmkII -p attiny85 -U flash:w:odometer.hex.save`
 
 ## Usage
 
-The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **303.7 km** up to now using the odometer.
+The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **318.2 km** up to now using the odometer.
 
 Date: 2020-02-11
-
