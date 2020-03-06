@@ -12,7 +12,7 @@
 MCU=attiny85
 F_CPU=1000000
 GIT_VERSION=$(shell git describe --abbrev=4 --always --tags)
-CFLAGS=-g -Wall -mmcu=$(MCU) -DF_CPU=$(F_CPU)UL -DVERSION=\"$(GIT_VERSION)\" -Os
+CFLAGS=-g -Wall -mmcu=$(MCU) -Os -DF_CPU=$(F_CPU)UL -DVERSION=\"$(GIT_VERSION)\"
 LDFLAGS=-Wl,-gc-sections -Wl,-relax
 CC=avr-gcc
 TARGET=odometer
@@ -29,7 +29,7 @@ all: $(TARGET).hex
 	$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $@
 
 clean:
-	rm -f *.o *.lss *.hex *.obj *.hex
+	rm -f *.o *.lss *.asm *.hex *.obj *.hex
 
 fuse:
 	# eeprom preserve, BOD at 1.8 volt, 8 MHz oscillator prescaled by 8
@@ -41,4 +41,9 @@ eeprom:
 
 flash: $(TARGET).hex
 	avrdude -q -F -P usb -c avrispmkII -p $(MCU) -U flash:w:$<
+
+disassemble:
+	# read and disassemble flash
+	avrdude -q -F -P usb -c avrispmkII -p $(MCU) -U flash:r:$(TARGET).hex:i
+	avr-objdump -j .sec1 -d -m avr $(TARGET).hex > $(TARGET).asm
 
