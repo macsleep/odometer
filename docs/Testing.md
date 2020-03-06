@@ -29,7 +29,7 @@ Total power consumption is at about 0.46 milli Amps on average (measured at the 
 If you run into issues with the serial connection try calibrating the Attinys internal oscillator. The calibration can be set using the INTERNAL\_OSCILLATOR\_CALIBRATION macro which is added to the OSCCAL register in the usi\_init function. The internal oscillator is a little bit different for every tiny produced. If you want to know the value added to OSCCAL in an already programmed Attiny disassemble the flash:
 
 <pre>
-mini% make disassemble`
+mini% make disassemble
 </pre>
 
 and check what is being done to register 49 or 0x31 (OSCCAL) in the odometer.asm file. I have tried doing the timing in the USI functions with a well calibrated tiny. The USI functions have also been tested with rates of 1200 to 19200 Baud (see the USI\_BAUD\_DELAY macro). 
