@@ -26,7 +26,7 @@ The JST connector has the six pins needed for the **I**n **S**ystem **P**rogramm
 |B2      | MB6S              | SOIC-4         |
 |C1      | 33u 20v Tantalum  | SMC_C          |
 |C2      | 22u 6.3v Tantalum | SMC_A          |
-|D1      | LL4148            | SOD80C         |
+|D1      | ES1DL             | Sub SMA        |
 |D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |
 |IC2     | MIC5225YM5        | SOT25          |
