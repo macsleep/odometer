@@ -29,7 +29,7 @@ The JST connector has the six pins needed for the **I**n **S**ystem **P**rogramm
 |D1      | BAV102            | SOD80C         |
 |D2      | S-101T            | S series       |
 |IC1     | TINY85V-10SU      | SOIC-8         |
-|IC2     | MIC5225YM5        | SOT25          |
+|IC2     | MIC5225YM5        | SOT23-5        |
 |LED1    | RED               | 0805           |
 |Q1      | 2N7002            | SOT23          |
 |Q2      | BSS169            | SOT23          |
