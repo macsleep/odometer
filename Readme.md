@@ -34,12 +34,10 @@ This will remove any old build files, rebuild the Intel hex file and download th
 
 * `make fuse`
 
-The fuses only need to be set once. If you don't want to build the hex file yourself you can also just flash the odometer.hex.save file using AVRDUDE:
-
-`avrdude -q -F -P usb -c avrispmkII -p attiny85 -U flash:w:odometer.hex.save`
+The fuses only need to be set once.
 
 ## Usage
 
-The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **2240.8 km** up to now using the odometer.
+The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **2411.2 km** up to now using the odometer.
 
 Date: 2020-02-11
