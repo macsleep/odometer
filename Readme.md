@@ -38,6 +38,6 @@ The fuses only need to be set once.
 
 ## Usage
 
-The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **2411.2 km** up to now using the odometer.
+The odometer needs to be hooked up in parallel to the hub generator. As soon as the front wheel starts turning the Attiny will power up and start counting the AC voltage sinus waves sent by the hub generator. The number of front wheel turns will be stored in the non-volatile EEPROM. To retrieve the stored wheel turns from the EEPROM you will need to connect the odometer to a computer with a serial adapter. I have travelled **2543.8 km** up to now using the odometer.
 
 Date: 2020-02-11
